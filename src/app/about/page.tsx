@@ -55,7 +55,7 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-xl font-semibold mb-4">Customer First</h3>
-              <p className="text-gray-600">We prioritize our customers' needs and strive to exceed their expectations in every interaction.</p>
+              <p className="text-gray-600">We prioritize our customers needs and strive to exceed their expectations in every interaction.</p>
             </div>
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-xl font-semibold mb-4">Quality Assurance</h3>
@@ -74,7 +74,7 @@ export default function AboutPage() {
             <div className="grid md:grid-cols-2 gap-8">
               <div>
                 <h3 className="text-xl font-semibold mb-4">Get in Touch</h3>
-                <p className="text-gray-600 mb-4">We'd love to hear from you. Here's how you can reach us...</p>
+                <p className="text-gray-600 mb-4">We love to hear from you. Here how you can reach us...</p>
                 <ul className="space-y-4">
                   <li className="flex items-center">
                     <Mail className="h-6 w-6 text-purple-600 mr-2" />
