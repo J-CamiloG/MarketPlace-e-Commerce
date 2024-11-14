@@ -1,20 +1,14 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { Loader, ChevronLeft, ChevronRight } from 'lucide-react'
+import { useState, useEffect, useCallback } from 'react'
+import { Loader } from 'lucide-react'
 import Navbar from '@/components/Navbar'
 import StoreFilters from '@/components/StoreFilters'
 import ProductCard from '@/components/ProductCard'
+import CartModal from '@/components/CartModal'
+import Pagination from '@/components/Pagination'
+import { Product } from '../../types/product'
 
-type Product = {
-  id: number
-  title: string
-  price: number
-  description: string
-  category: string
-  image: string
-  rating: { rate: number; count: number }
-}
 
 export default function StorePage() {
   const [products, setProducts] = useState<Product[]>([])
@@ -68,13 +62,21 @@ export default function StorePage() {
 
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage)
 
-  const openCart = () => {
+  const openCart = useCallback(() => {
     setIsCartOpen(true)
+  }, [])
+
+  const closeCart = useCallback(() => {
+    setIsCartOpen(false)
+  }, [])
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar />
+      <Navbar openCart={openCart} />
 
       <main className="container mx-auto px-4 py-8">
         <StoreFilters
@@ -99,25 +101,11 @@ export default function StorePage() {
               ))}
             </div>
 
-            <div className="mt-8 flex justify-center items-center space-x-4">
-              <button
-                className="p-2 border rounded-md hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
-                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-              >
-                <ChevronLeft className="h-5 w-5" />
-              </button>
-              <span className="text-gray-600">
-                Página {currentPage} de {totalPages}
-              </span>
-              <button
-                className="p-2 border rounded-md hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
-                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                disabled={currentPage === totalPages}
-              >
-                <ChevronRight className="h-5 w-5" />
-              </button>
-            </div>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
           </>
         )}
 
@@ -127,6 +115,9 @@ export default function StorePage() {
           </div>
         )}
       </main>
+
+
+      <CartModal isOpen={isCartOpen} onClose={closeCart} />
     </div>
   )
 }

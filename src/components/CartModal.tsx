@@ -1,11 +1,10 @@
-import Image from 'next/image'
-import { X, ShoppingCart } from 'lucide-react'
 import { useCart } from '../app/context/CartContext'
+import { X, ShoppingCart } from 'lucide-react'
+import Image from 'next/image'
+import { CartModalProps } from '../types/cartModalProps'
+import Link from 'next/link'
 
-type CartModalProps = {
-  isOpen: boolean
-  onClose: () => void
-}
+
 
 export default function CartModal({ isOpen, onClose }: CartModalProps) {
   const { cart, removeFromCart, cartTotal } = useCart()
@@ -13,20 +12,19 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 text-black">
       <div className="bg-white rounded-lg p-8 max-w-lg w-full max-h-[80vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">Carrito de Compras</h2>
+          <h2 className="text-2xl font-bold">Shopping Cart</h2>
           <button 
-            onClick={onClose} 
+            onClick={onClose}
             className="text-gray-500 hover:text-gray-700"
-            aria-label="Cerrar carrito"
           >
             <X className="h-6 w-6" />
           </button>
         </div>
         {cart.length === 0 ? (
-          <p>Tu carrito está vacío</p>
+          <p>Your cart is empty</p>
         ) : (
           <div className="space-y-4">
             {cart.map(product => (
@@ -39,9 +37,8 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
                 <button 
                   className="text-red-500 hover:text-red-700"
                   onClick={() => removeFromCart(product.id)}
-                  aria-label={`Eliminar ${product.title} del carrito`}
                 >
-                  Eliminar
+                  Remove
                 </button>
               </div>
             ))}
@@ -51,10 +48,14 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
                 <span>${cartTotal.toFixed(2)}</span>
               </div>
             </div>
-            <button className="w-full bg-gradient-to-r from-purple-600 to-blue-500 text-white py-2 px-4 rounded-full hover:from-purple-700 hover:to-blue-600 transition-colors mt-4 flex items-center justify-center">
+            <Link 
+              href="/cart" 
+              className="w-full bg-gradient-to-r from-purple-600 to-blue-500 text-white py-2 px-4 rounded-full hover:from-purple-700 hover:to-blue-600 transition-colors mt-4 flex items-center justify-center"
+            >
               <ShoppingCart className="h-5 w-5 mr-2" />
-              Proceder al pago
-            </button>
+              Proceed to Checkout
+            </Link>
+
           </div>
         )}
       </div>

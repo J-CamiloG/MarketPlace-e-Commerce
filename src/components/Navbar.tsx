@@ -1,38 +1,36 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { ShoppingCart, Menu, X } from 'lucide-react'
 import { useCart } from '../app/context/CartContext'
-import CartModal from './CartModal'
 
-export default function Navbar() {
+type NavbarProps = {
+  openCart: () => void
+}
+
+export default function Navbar({ openCart }: NavbarProps) {
   const { cart } = useCart()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isCartOpen, setIsCartOpen] = useState(false)
-
-  const openCart = useCallback(() => {
-    setIsCartOpen(true)
-  }, [])
 
   return (
-    <header className="bg-white shadow-sm">
+    <header className="bg-black  shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 text-transparent bg-clip-text">
-            eTrade
+          AgriMarket
           </Link>
           
           <nav className="hidden md:flex space-x-4">
-            <Link href="/" className="text-gray-600 hover:text-gray-900">Home</Link>
-            <Link href="/store" className="text-gray-600 hover:text-gray-900">Store</Link>
-            <Link href="/about" className="text-gray-600 hover:text-gray-900">About Us</Link>
-            <Link href="/deals" className="text-gray-600 hover:text-gray-900">Deals</Link>
+            <Link href="/" className="text-white font-bold hover:text-purple-400">Home</Link>
+            <Link href="/store" className="text-whitw font-bold hover:text-purple-400">Store</Link>
+            <Link href="/about" className="text-whitw font-bold hover:text-purple-400">About Us</Link>
+            <Link href="/deals" className="text-whitw font-bold hover:text-purple-400">Deals</Link>
           </nav>
           
-          <div className="flex items-center">
+          <div className="flex items-center space-x-4">
             <button 
-              className="relative p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-600 rounded-full"
+              className="relative p-2 text-white hover:text-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-600 rounded-full"
               onClick={openCart}
               aria-label={`View cart with ${cart.length} items`}
             >
@@ -44,8 +42,15 @@ export default function Navbar() {
               )}
             </button>
             
+            <Link 
+              href="/cart" 
+              className="bg-gradient-to-r from-purple-600 to-blue-500 text-white py-2 px-4 rounded-full hover:from-purple-700 hover:to-blue-600 transition-colors"
+            >
+              Proceed to Checkout
+            </Link>
+            
             <button 
-              className="ml-4 md:hidden"
+              className="md:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -64,7 +69,6 @@ export default function Navbar() {
           </div>
         )}
       </div>
-      <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </header>
   )
 }

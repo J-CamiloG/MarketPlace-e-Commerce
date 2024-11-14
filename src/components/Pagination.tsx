@@ -1,21 +1,31 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
-interface PaginationProps {
-  currentPage: number;
-  totalPages: number;
-  setCurrentPage: (page: number) => void;
+type PaginationProps = {
+  currentPage: number
+  totalPages: number
+  onPageChange: (page: number) => void
 }
 
-const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, setCurrentPage }) => (
-  <div className="mt-8 flex justify-center items-center space-x-4">
-    <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} className="p-2 border rounded-md">
-      <ChevronLeft />
-    </button>
-    <span>Página {currentPage} de {totalPages}</span>
-    <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages} className="p-2 border rounded-md">
-      <ChevronRight />
-    </button>
-  </div>
-);
-
-export default Pagination;
+export default function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
+  return (
+    <div className="mt-8 flex justify-center items-center space-x-4">
+      <button
+        className="p-2 border rounded-md hover:bg-gray-100  disabled:cursor-not-allowed bg-black"
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+      >
+        <ChevronLeft className="h-5 w-5" />
+      </button>
+      <span className="text-gray-600">
+        Página {currentPage} de {totalPages}
+      </span>
+      <button
+        className="p-2 border rounded-md hover:bg-gray-100  disabled:cursor-not-allowed bg-black"
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+      >
+        <ChevronRight className="h-5 w-5" />
+      </button>
+    </div>
+  )
+}

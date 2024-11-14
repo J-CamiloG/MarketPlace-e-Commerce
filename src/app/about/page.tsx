@@ -1,34 +1,49 @@
+'use client'
+
+import { useState, useCallback } from 'react'
 import Navbar from '@/components/Navbar'
+import CartModal from '@/components/CartModal'
 import Image from 'next/image'
 import { Mail, Phone, MapPin } from 'lucide-react'
+import Footer from '@/components/Footer'
 
 export default function AboutPage() {
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
+  const [isCartOpen, setIsCartOpen] = useState(false)
 
-      <main className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold text-center mb-8">About eTrade</h1>
+  const openCart = useCallback(() => {
+    setIsCartOpen(true)
+  }, [])
+
+  const closeCart = useCallback(() => {
+    setIsCartOpen(false)
+  }, [])
+
+  return (
+    <div className="min-h-screen bg-gray-50 ">
+      <Navbar openCart={openCart} />
+
+      <main className="container mx-auto px-4 py-8 text-black">
+        <h1 className="text-4xl font-bold text-center mb-8">About AgriMarket</h1>
 
         <section className="mb-12">
           <div className="bg-white rounded-xl shadow-lg overflow-hidden">
             <div className="md:flex">
               <div className="md:flex-shrink-0">
                 <Image
-                  src="/placeholder.svg?height=400&width=600"
+                  src="https://mir-s3-cdn-cf.behance.net/projects/404/c5d05b156739639.Y3JvcCw5MjAsNzIwLDc5LDA.png"
                   alt="eTrade team"
-                  width={600}
-                  height={400}
+                  width={800}
+                  height={800}
                   className="h-48 w-full object-cover md:h-full md:w-48"
                 />
               </div>
               <div className="p-8">
                 <h2 className="text-2xl font-semibold text-gray-800 mb-4">Our Story</h2>
                 <p className="text-gray-600 mb-4">
-                  Founded in 2023, eTrade has quickly become a leading online marketplace, connecting customers with high-quality products from around the world. Our mission is to provide an exceptional shopping experience with a focus on customer satisfaction, product quality, and innovative technology.
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Pariatur porro aliquam optio earum sed corporis nisi asperiores. Culpa voluptatum quaerat, id ducimus nobis laborum eos provident possimus ipsam consectetur quo.
                 </p>
                 <p className="text-gray-600">
-                  We believe in the power of e-commerce to transform lives and businesses. By offering a wide range of products at competitive prices, we aim to make quality goods accessible to everyone, while supporting both established brands and emerging artisans.
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa harum eligendi omnis odio laboriosam atque pariatur et vero placeat magni! Adipisci quis iste eligendi at laborum eius! Totam, adipisci pariatur?
                 </p>
               </div>
             </div>
@@ -97,11 +112,9 @@ export default function AboutPage() {
         </section>
       </main>
 
-      <footer className="bg-gray-100">
-        <div className="container mx-auto px-4 py-8">
-          <p className="text-center text-gray-600">&copy; 2023 eTrade. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer/>
+
+      <CartModal isOpen={isCartOpen} onClose={closeCart} />
     </div>
   )
 }

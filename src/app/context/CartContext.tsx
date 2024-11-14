@@ -10,14 +10,15 @@ type Product = {
   category: string
   image: string
   rating: { rate: number; count: number }
+  quantity: number
 }
 
 type CartContextType = {
   cart: Product[]
   addToCart: (product: Product) => void
-  removeFromCart: (productId: number) => void
-  clearCart: () => void
-  isInCart: (productId: number) => boolean
+  removeFromCart: (id: number) => void
+  updateQuantity: (id: number, quantity: number) => void
+  isInCart: (id: number) => boolean
   cartTotal: number
 }
 
@@ -39,29 +40,36 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const addToCart = (product: Product) => {
     setCart(prevCart => {
-      if (!prevCart.some(item => item.id === product.id)) {
-        return [...prevCart, product]
+      const existingProduct = prevCart.find(item => item.id === product.id)
+      if (existingProduct) {
+        return prevCart.map(item =>
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        )
       }
-      return prevCart
+      return [...prevCart, { ...product, quantity: 1 }]
     })
   }
 
-  const removeFromCart = (productId: number) => {
-    setCart(prevCart => prevCart.filter(item => item.id !== productId))
+  const removeFromCart = (id: number) => {
+    setCart(prevCart => prevCart.filter(item => item.id !== id))
   }
 
-  const clearCart = () => {
-    setCart([])
+  const updateQuantity = (id: number, quantity: number) => {
+    setCart(prevCart =>
+      prevCart.map(item =>
+        item.id === id ? { ...item, quantity: quantity } : item
+      )
+    )
   }
 
-  const isInCart = (productId: number) => {
-    return cart.some(item => item.id === productId)
+  const isInCart = (id: number) => {
+    return cart.some(item => item.id === id)
   }
 
-  const cartTotal = cart.reduce((sum, product) => sum + product.price, 0)
+  const cartTotal = cart.reduce((total, item) => total + item.price * item.quantity, 0)
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, isInCart, cartTotal }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, isInCart, cartTotal }}>
       {children}
     </CartContext.Provider>
   )

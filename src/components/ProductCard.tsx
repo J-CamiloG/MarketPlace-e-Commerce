@@ -50,7 +50,7 @@ export default function ProductCard({ product, openCart }: ProductCardProps) {
         <h3 className="font-semibold text-lg text-gray-900 mb-2 line-clamp-2">{product.title}</h3>
         <p className="text-sm text-gray-600 mb-4 flex-grow line-clamp-3">{product.description}</p>
         <div className="flex items-center justify-between mb-4">
-          <span className="text-2xl font-bold text-purple-600">${product.price.toFixed(2)}</span>
+          <span className="text-2xl font-bold text-purple-600">${product.price.toFixed(3)}</span>
           <div className="flex items-center">
             <Star className="h-5 w-5 text-yellow-400 fill-current" />
             <span className="ml-1 text-sm text-gray-600">{product.rating.rate} ({product.rating.count})</span>

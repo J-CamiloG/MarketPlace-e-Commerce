@@ -1,14 +1,6 @@
 import { ChevronDown, Search, SortAsc, SortDesc, Filter } from 'lucide-react'
+import { StoreFiltersProps } from '../types/StoreFiltersProps'
 
-type StoreFiltersProps = {
-  categories: string[]
-  selectedCategory: string
-  setSelectedCategory: (category: string) => void
-  searchTerm: string
-  setSearchTerm: (term: string) => void
-  sortOrder: 'asc' | 'desc'
-  setSortOrder: (order: 'asc' | 'desc') => void
-}
 
 export default function StoreFilters({
   categories,
@@ -20,7 +12,7 @@ export default function StoreFilters({
   setSortOrder
 }: StoreFiltersProps) {
   return (
-    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 space-y-4 md:space-y-0">
+    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 space-y-4 md:space-y-0 text-black">
       <div className="w-full md:w-auto flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
         <div className="relative flex-grow">
           <input

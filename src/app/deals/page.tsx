@@ -1,25 +1,20 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import { Star, ShoppingCart, Clock } from 'lucide-react'
 import Navbar from '@/components/Navbar'
+import CartModal from '@/components/CartModal'
 import { useCart } from '../context/CartContext'
+import Footer from '@/components/Footer'
+import { Product } from '../../types/product'
 
-type Product = {
-  id: number
-  title: string
-  price: number
-  description: string
-  category: string
-  image: string
-  rating: { rate: number; count: number }
-}
 
 export default function DealsPage() {
   const [deals, setDeals] = useState<Product[]>([])
   const { addToCart, isInCart } = useCart()
   const [timeLeft, setTimeLeft] = useState(24 * 60 * 60) 
+  const [isCartOpen, setIsCartOpen] = useState(false)
 
   useEffect(() => {
     fetch('https://fakestoreapi.com/products?limit=6')
@@ -50,11 +45,27 @@ export default function DealsPage() {
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
   }
 
+  const openCart = useCallback(() => {
+    setIsCartOpen(true)
+  }, [])
+
+  const closeCart = useCallback(() => {
+    setIsCartOpen(false)
+  }, [])
+
+  const handleAddToCart = (product: Product) => {
+    if (isInCart(product.id)) {
+      openCart()
+    } else {
+      addToCart(product)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar />
+      <Navbar openCart={openCart} />
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 text-black">
         <h1 className="text-4xl font-bold text-center mb-8">Hot Deals</h1>
 
         <div className="bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-xl p-6 mb-8 flex items-center justify-between">
@@ -102,7 +113,7 @@ export default function DealsPage() {
                 </div>
                 <button 
                   className="w-full bg-gradient-to-r from-purple-600 to-blue-500 text-white py-2 px-4 rounded-full hover:from-purple-700 hover:to-blue-600 transition-colors flex items-center justify-center"
-                  onClick={() => addToCart(product)}
+                  onClick={() => handleAddToCart(product)}
                 >
                   <ShoppingCart className="h-5 w-5 mr-2" />
                   {isInCart(product.id) ? 'View Cart' : 'Add to Cart'}
@@ -113,11 +124,9 @@ export default function DealsPage() {
         </div>
       </main>
 
-      <footer className="bg-gray-100 mt-16">
-        <div className="container mx-auto px-4 py-8">
-          <p className="text-center text-gray-600">&copy; 2023 eTrade. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer/>
+
+      <CartModal isOpen={isCartOpen} onClose={closeCart} />
     </div>
   )
 }
