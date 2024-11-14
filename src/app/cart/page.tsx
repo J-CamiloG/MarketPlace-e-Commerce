@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import Image from 'next/image'
 import { useCart } from '../context/CartContext'
 import Navbar from '@/components/Navbar'
@@ -8,16 +7,13 @@ import { Minus, Plus, X } from 'lucide-react'
 
 export default function CartPage() {
   const { cart, removeFromCart, updateQuantity, cartTotal } = useCart()
-  const [isCartOpen, setIsCartOpen] = useState(false)
 
-  const openCart = () => setIsCartOpen(true)
-  const closeCart = () => setIsCartOpen(false)
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar openCart={openCart} />
+      <Navbar  />
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 text-black">
         <h1 className="text-3xl font-bold mb-8">Your Shopping Cart</h1>
 
         {cart.length === 0 ? (
@@ -36,7 +32,7 @@ export default function CartPage() {
                 </div>
                 <div className="flex-grow">
                   <h2 className="text-xl font-semibold mb-2">{product.title}</h2>
-                  <p className="text-gray-600 mb-2">${product.price.toFixed(2)} each</p>
+                  <p className="text-gray-600 mb-2">${product.price.toFixed(3)} each</p>
                   <div className="flex items-center space-x-2">
                     <button
                       onClick={() => updateQuantity(product.id, Math.max(1, product.quantity - 1))}
@@ -56,7 +52,7 @@ export default function CartPage() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-xl font-bold mb-2">${(product.price * product.quantity).toFixed(2)}</p>
+                  <p className="text-xl font-bold mb-2">${(product.price * product.quantity).toFixed(3)}</p>
                   <button
                     onClick={() => removeFromCart(product.id)}
                     className="text-red-600 hover:text-red-800 transition-colors"
@@ -71,7 +67,7 @@ export default function CartPage() {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <div className="flex justify-between items-center text-2xl font-bold">
                 <span>Total:</span>
-                <span>${cartTotal.toFixed(2)}</span>
+                <span>${cartTotal.toFixed(3)}</span>
               </div>
               <button className="w-full mt-4 bg-gradient-to-r from-purple-600 to-blue-500 text-white py-3 px-4 rounded-full hover:from-purple-700 hover:to-blue-600 transition-colors text-lg font-semibold">
                 Proceed to Checkout
