@@ -8,10 +8,9 @@ import { Minus, Plus, X } from 'lucide-react'
 export default function CartPage() {
   const { cart, removeFromCart, updateQuantity, cartTotal } = useCart()
 
-
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar  />
+      <Navbar />
 
       <main className="container mx-auto px-4 py-8 text-black">
         <h1 className="text-3xl font-bold mb-8">Your Shopping Cart</h1>
@@ -35,7 +34,7 @@ export default function CartPage() {
                   <p className="text-gray-600 mb-2">${product.price.toFixed(3)} each</p>
                   <div className="flex items-center space-x-2">
                     <button
-                      onClick={() => updateQuantity(product.id, Math.max(1, product.quantity - 1))}
+                      onClick={() => updateQuantity(product.id, Math.max(1, (product.quantity ?? 1) - 1))}
                       className="bg-gray-200 rounded-full p-1 hover:bg-gray-300 transition-colors"
                       aria-label="Decrease quantity"
                     >
@@ -43,7 +42,7 @@ export default function CartPage() {
                     </button>
                     <span className="font-semibold">{product.quantity}</span>
                     <button
-                      onClick={() => updateQuantity(product.id, product.quantity + 1)}
+                      onClick={() => updateQuantity(product.id, product.quantity !== undefined ? product.quantity + 1 : 1)}
                       className="bg-gray-200 rounded-full p-1 hover:bg-gray-300 transition-colors"
                       aria-label="Increase quantity"
                     >
@@ -52,7 +51,9 @@ export default function CartPage() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-xl font-bold mb-2">${(product.price * product.quantity).toFixed(3)}</p>
+                <p className="text-xl font-bold mb-2">
+                  ${((product.price * (product.quantity ?? 1)).toFixed(3))}
+                </p>
                   <button
                     onClick={() => removeFromCart(product.id)}
                     className="text-red-600 hover:text-red-800 transition-colors"

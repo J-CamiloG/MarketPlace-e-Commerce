@@ -1,5 +1,5 @@
 import { ChevronDown, Search, SortAsc, SortDesc, Filter } from 'lucide-react'
-import { StoreFiltersProps } from '../types/StoreFiltersProps'
+import { StoreFiltersProps } from '../types/storeFiltersProps'
 
 
 export default function StoreFilters({

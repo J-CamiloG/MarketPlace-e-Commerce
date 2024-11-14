@@ -4,10 +4,8 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { ShoppingCart, Menu, X } from 'lucide-react'
 import { useCart } from '../app/context/CartContext'
+import { NavbarProps } from '../types/navbarProps'
 
-type NavbarProps = {
-  openCart: () => void
-}
 
 export default function Navbar({ openCart }: NavbarProps) {
   const { cart } = useCart()

@@ -1,16 +1,7 @@
 import Image from 'next/image'
 import { Star, ShoppingCart } from 'lucide-react'
 import { useCart } from '../app/context/CartContext'
-
-type Product = {
-  id: number
-  title: string
-  price: number
-  description: string
-  category: string
-  image: string
-  rating: { rate: number; count: number }
-}
+import { Product } from '@/types/product'
 
 type ProductCardProps = {
   product: Product

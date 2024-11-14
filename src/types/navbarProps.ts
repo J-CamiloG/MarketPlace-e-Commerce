@@ -1,3 +1,3 @@
 export type NavbarProps = {
-  openCart: () => void
+  openCart?: () => void
 }
