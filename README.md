@@ -1,36 +1,177 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# AgriMarket E-commerce Application Documentation
 
-First, run the development server:
+## Table of Contents
+
+1. [Project Overview](#project-overview)
+2. [Project Structure](#project-structure)
+3. [Key Components](#key-components)
+4. [Pages](#pages)
+5. [Context and State Management](#context-and-state-management)
+6. [Styling](#styling)
+7. [API Integration](#api-integration)
+8. [Future Improvements](#future-improvements)
+
+## 1. Project Overview
+
+AgriMarket is a modern e-commerce application built with Next.js, React, and TypeScript. It features a responsive design, product listing, shopping cart functionality, and a checkout process.
+
+## 2. Project Structure
+
+The project follows a typical Next.js structure:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+/src
+  /app
+    /components
+    /context
+    /types
+    layout.tsx
+    page.tsx (Home)
+    /store
+      page.tsx
+    /cart
+      page.tsx
+    /about
+      page.tsx
+    /deals
+      page.tsx
+  /public
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 3. Key Components
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Navbar
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```typescript
+// File: src/app/components/Navbar.tsx
 
-## Learn More
+type NavbarProps = {
+  openCart?: () => void
+}
 
-To learn more about Next.js, take a look at the following resources:
+export default function Navbar({ openCart }: NavbarProps) {
+  // Component logic
+}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The Navbar component is present on all pages and includes links to different sections of the site, as well as a cart icon that displays the current number of items in the cart.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### ProductCard
 
-## Deploy on Vercel
+```typescript
+// File: src/app/components/ProductCard.tsx
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+type ProductCardProps = {
+  product: Product
+  openCart: () => void
+}
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+export default function ProductCard({ product, openCart }: ProductCardProps) {
+  // Component logic
+}
+```
+
+ProductCard displays individual product information and includes an "Add to Cart" button that changes to "View Cart" when the product is in the cart.
+
+### CartModal
+
+```typescript
+// File: src/app/components/CartModal.tsx
+
+type CartModalProps = {
+  isOpen: boolean
+  onClose: () => void
+}
+
+export default function CartModal({ isOpen, onClose }: CartModalProps) {
+  // Component logic
+}
+```
+
+CartModal displays the current items in the cart, allows for quantity adjustments, and shows the total price.
+
+### Pagination
+
+```typescript
+// File: src/app/components/Pagination.tsx
+
+type PaginationProps = {
+  currentPage: number
+  totalPages: number
+  onPageChange: (page: number) => void
+}
+
+export default function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
+  // Component logic
+}
+```
+
+Pagination component handles page navigation in the store.
+
+## 4. Pages
+
+### Home (/)
+
+The landing page showcases featured products and promotional sections.
+
+### Store (/store)
+
+Displays a grid of products with filtering and sorting options. Uses the Pagination component for navigating through product pages.
+
+### Cart (/cart)
+
+Shows all items added to the cart, allows quantity adjustments, and displays the total price.
+
+### About (/about)
+
+Provides information about the company and includes a contact form.
+
+### Deals (/deals)
+
+Showcases special offers and discounted products.
+
+## 5. Context and State Management
+
+### CartContext
+
+```typescript
+// File: src/app/context/CartContext.tsx
+
+type CartContextType = {
+  cart: Product[]
+  addToCart: (product: Product) => void
+  removeFromCart: (id: number) => void
+  updateQuantity: (id: number, quantity: number) => void
+  isInCart: (id: number) => boolean
+  cartTotal: number
+}
+
+export function CartProvider({ children }: { children: React.ReactNode }) {
+  // Context logic
+}
+
+export function useCart() {
+  // Hook logic
+}
+```
+
+CartContext manages the global state of the shopping cart, providing functions to add, remove, and update items in the cart.
+
+## 6. Styling
+
+The project uses Tailwind CSS for styling, providing a responsive and customizable design system.
+
+## 7. API Integration
+
+The application fetches product data from the Fake Store API (https://fakestoreapi.com/). This is used to populate the store with sample products.
+
+## 8. Future Improvements
+
+- Implement user authentication and user-specific carts
+- Add a wishlist feature
+- Integrate a real payment gateway
+- Implement product reviews and ratings
+- Add more detailed product pages
+- Improve accessibility features
+- Implement server-side rendering for better SEO
